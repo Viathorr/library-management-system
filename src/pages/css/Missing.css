@@ -1,0 +1,34 @@
+body.missing-container {
+    background-color: #f4f4f9;
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.missing-container h2 {
+    font-size: 2em;
+    color: #2c3e50;
+}
+
+.missing-container p {
+    font-size: 1.1em;
+    margin-top: 0.5rem
+}
+
+.missing-container a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    font-weight: semibold;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.missing-container a:hover {
+    background-color: #2980b9;
+}

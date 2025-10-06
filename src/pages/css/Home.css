@@ -1,0 +1,148 @@
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+a {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+div.loading {
+  margin-top: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.home-container {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.auth-section {
+  background-color: white;
+  padding: 30px 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.welcome-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.welcome-container h2 {
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: block;
+    margin-right: 1rem;
+    padding: 0.75rem;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    cursor: pointer;
+}
+
+.welcome-container .logout {
+    background-color: #e74c3c;
+    margin: auto;
+    border-width: 0;
+}
+
+.welcome-container .logout:hover {
+    background-color: #c0392b;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.popup-actions button {
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.popup-actions button:first-child {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup-actions button:first-child:hover {
+    background-color: #c0392b;
+}
+
+.popup-actions button:last-child {
+    background-color: #bdc3c7;
+    color: #2c3e50;
+}
+
+.popup-actions button:last-child:hover {
+    background-color: #95a5a6;
+}
