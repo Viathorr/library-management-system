@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from app.routes.user_route import router as user_router
 
 
 app = FastAPI(title="Library Management System API",
@@ -15,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Add routers here
+app.include_router(user_router, prefix="/api", tags=["users"])
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
