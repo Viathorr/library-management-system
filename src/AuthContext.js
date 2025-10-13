@@ -22,15 +22,23 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signup = async (username, email, role, password) => {
-    
+    const res = await api.post('/users/signup', { "username": username, "email": email, "role": role, "password_hash": password });
+    localStorage.setItem('access_token', res.data.access_token);
+    const decoded = jwtDecode(res.data.access_token);
+    setUser({ username: decoded.username, role: decoded.role });
   }
 
   const login = async (username, password) => {
-    
+    const res = await api.post('/users/login', { "username": username, "password_hash": password });
+    localStorage.setItem('access_token', res.data.access_token);
+    const decoded = jwtDecode(res.data.access_token);
+    setUser({ username: decoded.username, role: decoded.role });
   };
 
   const logout = async () => {
-    
+    await api.post('/users/logout');
+    localStorage.removeItem('access_token');
+    setUser(null);
   };
 
   return (
