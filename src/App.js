@@ -9,6 +9,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Missing from './pages/Missing';
 import BookPage from './pages/BookPage.js';
+import MyOrders from './pages/MyOrders.js';
+import Orders from './pages/Orders.js';
+import MakeOrder from './pages/MakeOrder.js';
 
 
 function App() {
@@ -39,6 +42,30 @@ function App() {
             element={
               <ProtectedRoute requiredRole="librarian">
                 <AddBook />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/my_orders'
+            element={
+              <ProtectedRoute requiredRole="reader">
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute requiredRole="librarian">
+                <Orders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders/make_order"
+            element={
+              <ProtectedRoute requiredRole="reader">
+                <MakeOrder />
               </ProtectedRoute>
             }
           />
