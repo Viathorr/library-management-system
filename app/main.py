@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.user_route import router as user_router
 from app.routes.book_route import router as book_router
+from app.routes.order_route import router as order_router
 
 
 app = FastAPI(title="Library Management System API",
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(user_router, prefix="/api", tags=["users"])
 app.include_router(book_router, prefix="/api", tags=["books"])
+app.include_router(order_router, prefix="/api", tags=["orders"])
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
