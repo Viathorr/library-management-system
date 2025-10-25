@@ -4,6 +4,7 @@ import PublicRoute from './pages/PublicRoute.js';
 import ProtectedRoute from './pages/ProtectedRoute.js'; 
 import Home from './pages/Home';
 import Books from './pages/Books.js';
+import PopularBooks from './pages/PopularBooks.js';
 import AddBook from './pages/AddBook.js';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -26,6 +27,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Books />
+              </ProtectedRoute>   
+            }
+          />
+          <Route
+            path="/books/popular"
+            element={
+              <ProtectedRoute>
+                <PopularBooks />
               </ProtectedRoute>   
             }
           />

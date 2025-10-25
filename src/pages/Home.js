@@ -38,6 +38,9 @@ const Home = () => {
                         <Link to="/books" className="btn">
                         Book Catalog
                         </Link>
+                        <Link to="/books/popular" className="btn">
+                        Popular Books
+                        </Link>
                         <Link to="/books/add" className="btn">
                         Add Book
                         </Link>
@@ -52,6 +55,8 @@ const Home = () => {
                     <h2>Welcome, {user.username}!</h2>
                     <div className="nav-buttons">
                         <Link to="/books" className="btn">Book Catalog
+                        </Link>
+                        <Link to="/books/popular" className="btn">Popular Books
                         </Link>
                         <Link to="/my_orders" className="btn">My Orders
                         </Link>

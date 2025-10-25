@@ -38,7 +38,6 @@ const Books = () => {
             <p className="description">{entry.description ? entry.description.slice(0, 150) + "..." : "No description."}</p>
             <Link 
                 to={`/books/${entry.book_id}`} 
-                state={{ book: entry }}  
                 className="details-button"
             >
             View Details
