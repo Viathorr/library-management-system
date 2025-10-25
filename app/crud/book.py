@@ -1,10 +1,11 @@
+from datetime import datetime, timedelta
 from uuid import UUID
-from sqlalchemy import func
+from sqlalchemy import func, desc, and_
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.models.book import Book as BookModel
 from app.models.book_copy import BookCopy
-from app.schemas.book import BookBase
+from app.models.order import Order
 from app.config.logger import logger
 from app.exceptions.crud_exception import CRUDException
 
@@ -29,6 +30,22 @@ class BookCRUD:
             self.db.rollback()
             logger.error(f"Error while creating book: {e}")
             raise CRUDException(status_code=500, message="Internal server error")
+        
+    def get_book(self, book_id: UUID):
+        logger.info(f"Retrieving book with id: {book_id}")
+        book = self.db.query(BookModel).filter(BookModel.book_id == book_id).first()
+        available_copies = self.db.query(BookCopy).filter(BookCopy.book_id == book_id, BookCopy.status == "available").count()
+        if not book:
+            raise CRUDException(status_code=404, message="Book not found")
+        return {
+        "book_id": book.book_id,
+        "title": book.title,
+        "author": book.author,
+        "isbn": book.isbn,
+        "publication_year": book.publication_year,
+        "description": book.description,
+        "available_copies": available_copies
+    }
         
     def get_books(self, limit: int, offset: int):
         logger.info(f"Retrieving books with limit: {limit}, offset: {offset}")
@@ -84,5 +101,44 @@ class BookCRUD:
             }
         except Exception as e:
             logger.error(f"Error while retrieving books: {e}")
+            raise CRUDException(status_code=500, message="Internal server error")
+        
+    def get_most_popular_books_last_month(self, limit: int = 10):
+        """
+        Returns the most popular books based on orders within the last 30 days.
+        """
+        try:
+            logger.info("Fetching most popular books (last month)")
+            last_month_date = datetime.utcnow() - timedelta(days=30)
+
+            results = (
+                self.db.query(
+                    BookModel.book_id,
+                    BookModel.title,
+                    BookModel.author,
+                    func.count(Order.order_id).label("recent_orders")
+                )
+                .join(BookCopy, BookCopy.book_id == BookModel.book_id)
+                .join(Order, and_(
+                    Order.copy_id == BookCopy.copy_id,
+                    Order.order_date >= last_month_date
+                ))
+                .group_by(BookModel.book_id)
+                .order_by(desc("recent_orders"))
+                .limit(limit)
+                .all()
+            )
+
+            return [
+                {
+                    "book_id": r.book_id,
+                    "title": r.title,
+                    "author": r.author,
+                    "recent_orders": r.recent_orders,
+                }
+                for r in results
+            ]
+        except Exception as e:
+            logger.error(f"Error fetching most popular books (last month): {e}")
             raise CRUDException(status_code=500, message="Internal server error")
     

@@ -1,4 +1,5 @@
 from fastapi import Depends, HTTPException
+from uuid import UUID
 from sqlalchemy.orm import Session
 from app.schemas.book import BookPost, BookBase
 from app.schemas.book_copy import BookCopyBase, BookCopyStatus
@@ -31,9 +32,21 @@ class BookController:
         except CRUDException as e:
             raise HTTPException(status_code=e.status_code, detail=e.message)
         
+    def get_book(self, book_id: UUID):
+        try:
+            return self.book_crud.get_book(book_id)
+        except CRUDException as e:
+            raise HTTPException(status_code=e.status_code, detail=e.message)
+        
     def get_books(self, limit: int = 10, offset: int = 0):
         try:
             return self.book_crud.get_books(limit, offset)
+        except CRUDException as e:
+            raise HTTPException(status_code=e.status_code, detail=e.message)
+        
+    def get_most_borrowed_books(self, limit: int = 10):
+        try:
+            return self.book_crud.get_most_popular_books_last_month(limit)
         except CRUDException as e:
             raise HTTPException(status_code=e.status_code, detail=e.message)
         
