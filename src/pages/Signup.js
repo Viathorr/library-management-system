@@ -20,6 +20,16 @@ const Signup = () => {
             setError('Username, password, confirm password, and role are required.');
             return;
         }
+
+        if (/\s/.test(username)) {
+            setError('Username cannot contain spaces.');
+            return;
+        }
+        if (/\s/.test(password)) {
+            setError('Password cannot contain spaces.');
+            return;
+        }
+
         if (username.length < 3) {
             setError('Username must be at least 3 characters long.');
             return;
