@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import UUID
 from sqlalchemy import func, desc, and_
 from sqlalchemy.orm import Session
@@ -109,7 +109,7 @@ class BookCRUD:
         """
         try:
             logger.info("Fetching most popular books (last month)")
-            last_month_date = datetime.utcnow() - timedelta(days=30)
+            last_month_date = datetime.now(timezone.utc) - timedelta(days=30)
 
             results = (
                 self.db.query(
