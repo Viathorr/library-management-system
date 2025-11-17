@@ -4,8 +4,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.crud.order import OrderCRUD
 from app.models.order import Order as OrderModel
-from app.models.book_copy import BookCopy
-from app.models.book import Book as BookModel
 from app.schemas.order import OrderBase
 from app.exceptions.crud_exception import CRUDException
 from unittest.mock import Mock
@@ -44,16 +42,13 @@ def order_instance():
     )
 
 def test_create_order_success(db_session, order_data, order_instance):
-    # Arrange
     db_session.add = Mock()
     db_session.commit = Mock()
     db_session.refresh = Mock(return_value=order_instance)
     order_crud = OrderCRUD(db_session)
     
-    # Act
     result = order_crud.create_order(order_data)
     
-    # Assert
     assert isinstance(result, OrderModel)
     assert result.order_type == order_data.order_type
     assert result.user_id == order_data.user_id
@@ -62,13 +57,11 @@ def test_create_order_success(db_session, order_data, order_instance):
     db_session.refresh.assert_called_once()
 
 def test_create_order_error(db_session, order_data):
-    # Arrange
     db_session.add = Mock()
     db_session.commit = Mock(side_effect=Exception("Database error"))
     db_session.rollback = Mock()
     order_crud = OrderCRUD(db_session)
     
-    # Act & Assert
     with pytest.raises(CRUDException) as exc:
         order_crud.create_order(order_data)
     assert exc.value.status_code == 500
@@ -76,14 +69,12 @@ def test_create_order_error(db_session, order_data):
     db_session.rollback.assert_called_once()
 
 def test_get_all_active_orders_success(db_session):
-    # Arrange
     order_id = uuid4()
-    user_id = uuid4()
     copy_id = uuid4()
     mock_orders = [
         Mock(
             order_id=order_id,
-            user_id=user_id,
+            username="test_user",   
             copy_id=copy_id,
             order_type="borrow",
             order_date=datetime(2025, 5, 29),
@@ -93,61 +84,82 @@ def test_get_all_active_orders_success(db_session):
             book_title="Test Book",
         )
     ]
+
     query_mock = Mock()
-    query_mock.outerjoin.return_value.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.offset.return_value.all.return_value = mock_orders
-    query_mock.outerjoin.return_value.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.offset.return_value.first.return_value = None
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.all.return_value = mock_orders
+
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.first.return_value = None
+
     db_session.query.return_value = query_mock
 
     order_crud = OrderCRUD(db_session)
 
-    # Act
     result = order_crud.get_all_active_orders(limit=10, offset=0)
 
-    # Assert
     assert isinstance(result, dict)
     assert "orders" in result
     assert len(result["orders"]) == 1
+    assert result["orders"][0]["username"] == "test_user"  
     assert result["orders"][0]["book_title"] == "Test Book"
     assert result["page"] == 1
     assert result["has_next"] in [True, False]
 
 
 def test_get_all_active_orders_empty(db_session):
-    # Arrange
+    # Mock SQLAlchemy chained query
     query_mock = Mock()
-    query_mock.outerjoin.return_value.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.offset.return_value.all.return_value = []
+
+    # Mock the main query returning an empty list
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.all.return_value = []
+
+    # Mock .first() for checking next page (should also be None)
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.first.return_value = None
+
     db_session.query.return_value = query_mock
+
     order_crud = OrderCRUD(db_session)
 
-    # Act
     result = order_crud.get_all_active_orders(limit=10, offset=0)
 
-    # Assert
     assert result["orders"] == []
     assert result["page"] == 1
     assert result["has_next"] is False
 
 
 def test_get_all_active_orders_error(db_session):
-    # Arrange
     db_session.query.side_effect = Exception("Database error")
     order_crud = OrderCRUD(db_session)
     
-    # Act & Assert
     with pytest.raises(CRUDException) as exc:
         order_crud.get_all_active_orders(limit=10, offset=0)
     assert exc.value.status_code == 500
     assert exc.value.message == "Internal server error"
 
 def test_get_orders_by_user_success(db_session):
-    # Arrange
-    user_id = uuid4()
+    username = "test_user"
     order_id = uuid4()
     copy_id = uuid4()
+
     mock_orders = [
         Mock(
             order_id=order_id,
-            user_id=user_id,
+            username=username,          
             copy_id=copy_id,
             order_type="borrow",
             order_date=datetime(2025, 5, 29),
@@ -157,46 +169,54 @@ def test_get_orders_by_user_success(db_session):
             book_title="Test Book",
         )
     ]
+
     query_mock = Mock()
-    query_mock.outerjoin.return_value.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.offset.return_value.all.return_value = mock_orders
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.all.return_value = mock_orders
+
     db_session.query.return_value = query_mock
     order_crud = OrderCRUD(db_session)
 
-    # Act
-    result = order_crud.get_orders_by_user(user_id=user_id, limit=10, offset=0)
+    result = order_crud.get_orders_by_user(username=username, limit=10, offset=0)
 
-    # Assert
     assert "orders" in result
     assert len(result["orders"]) == 1
     assert result["orders"][0]["book_title"] == "Test Book"
-    assert result["orders"][0]["user_id"] == str(user_id)
+    assert result["orders"][0]["username"] == username     
 
 
 def test_get_orders_by_user_empty(db_session):
-    # Arrange
-    user_id = uuid4()
+    username = "test_user"
+
     query_mock = Mock()
-    query_mock.outerjoin.return_value.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.offset.return_value.all.return_value = []
+
+    query_mock.outerjoin.return_value \
+        .outerjoin.return_value \
+        .outerjoin.return_value \
+        .filter.return_value.order_by.return_value \
+        .limit.return_value.offset.return_value.all.return_value = []
+
     db_session.query.return_value = query_mock
     order_crud = OrderCRUD(db_session)
 
-    # Act
-    result = order_crud.get_orders_by_user(user_id=user_id, limit=10, offset=0)
+    result = order_crud.get_orders_by_user(username=username, limit=10, offset=0)
 
-    # Assert
     assert result["orders"] == []
     assert result["page"] == 1
     assert result["has_next"] is False
 
+
 def test_get_orders_by_user_error(db_session):
-    # Arrange
-    user_id = uuid4()
+    username = "test_user"
     db_session.query.side_effect = Exception("Database error")
     order_crud = OrderCRUD(db_session)
     
-    # Act & Assert
     with pytest.raises(CRUDException) as exc:
-        order_crud.get_orders_by_user(user_id=user_id, limit=10, offset=0)
+        order_crud.get_orders_by_user(username=username, limit=10, offset=0)
+
     assert exc.value.status_code == 500
     assert exc.value.message == "Internal server error"
 

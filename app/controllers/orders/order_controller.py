@@ -44,16 +44,16 @@ class OrderController:
             raise HTTPException(status_code=500, detail="Internal server error")
 
     def get_all_orders(self, limit: int = 10, offset: int = 0):
-        try:
+        try: 
             return self.order_crud.get_all_active_orders(limit, offset)
         except CRUDException as e:
             raise HTTPException(status_code=e.status_code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail="Internal server error")
         
-    def get_orders_by_user(self, user_id: UUID, limit: int = 10, offset: int = 0):
+    def get_orders_by_user(self, username: str, limit: int = 10, offset: int = 0):
         try:
-            return self.order_crud.get_orders_by_user(user_id, limit, offset)
+            return self.order_crud.get_orders_by_user(username, limit, offset)
         except CRUDException as e:
             raise HTTPException(status_code=e.status_code, detail=e.message)
         except Exception as e:

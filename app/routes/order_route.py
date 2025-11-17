@@ -26,8 +26,19 @@ def get_my_orders(
     current_user = Depends(get_current_user)
 ):
     logger.info(f"Fetching orders for user {current_user.username}")
-    return order_controller.get_orders_by_user(current_user.user_id, limit, offset)
+    return order_controller.get_orders_by_user(current_user.username, limit, offset)
 
+
+@router.get("/{username}", response_model=dict, dependencies=[Depends(require_role("librarian"))])
+def get_orders_by_user(
+    username: str,
+    limit: int = 10,
+    offset: int = 0,
+    order_controller: OrderController = Depends(get_order_controller)
+):
+    logger.info(f"Fetching orders for user {username}")
+    return order_controller.get_orders_by_user(username, limit, offset)
+ 
 
 @router.get("/", response_model=dict, dependencies=[Depends(require_role("librarian"))])
 def get_all_orders(
