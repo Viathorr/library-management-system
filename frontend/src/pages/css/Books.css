@@ -1,0 +1,149 @@
+.catalog-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.catalog-container h1 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Header layout */
+.catalog-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.catalog-container .home-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.catalog-container .home-button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+}
+
+/* Catalog grid */
+.catalog-container .catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+/* Book card styling */
+.catalog-container .book-card {
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.catalog-container .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.catalog-container .book-card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.75rem;
+    color: #2c3e50;
+}
+
+.catalog-container .book-card p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+    color: #34495e;
+}
+
+.catalog-container .book-card .description {
+    text-align: justify;
+    font-style: italic;
+    color: #2c3e50;
+}
+
+.catalog-container .available {
+    color: #27ae60;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+/* Buttons inside cards */
+
+.catalog-container .details-button,
+.catalog-container .order-button {
+    display: inline-block;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.catalog-container .details-button:hover,
+.catalog-container .order-button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Disabled state */
+.catalog-container .order-button.disabled,
+.catalog-container .order-button.disabled:hover {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    text-decoration: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Pagination */
+.catalog-container .pagination {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.catalog-container .pagination span {
+    margin: 0 0.5rem;
+    font-weight: bold;
+}
+
+.catalog-container .pagination button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.catalog-container .pagination button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+}

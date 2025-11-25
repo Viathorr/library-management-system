@@ -1,0 +1,86 @@
+/* body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 2rem;
+} */
+
+.add-book-container {
+    background-color: white;
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.add-book-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.add-book-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-book-container label {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.add-book-container input, .add-book-container textarea {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 0.3rem;
+}
+
+.add-book-container button {
+    margin-top: 2rem;
+    padding: 0.7rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-book-container button:hover {
+    background-color: #2980b9;
+}
+
+/* Common styling for Home button and header layout */
+.add-book-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.add-book-container .home-button {
+    padding: 8px 16px;
+    background-color: #3498db;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.add-book-container .home-button:hover {
+    background-color: #2980b9;
+}
+
+.add-book-container .error-message {
+    color: #e74c3c;
+    background-color: #fceaea;
+    border: 1px solid #e0b4b4;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    text-align: center;
+}

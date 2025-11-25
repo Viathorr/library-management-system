@@ -1,0 +1,97 @@
+.bookpage-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bookpage-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.bookpage-container h1 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.bookpage-container .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.bookpage-container .back-button {
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.bookpage-container .back-button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+}
+
+.bookpage-container .book-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.bookpage-container .book-details p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    text-align: justify;
+    color: #34495e;
+}
+
+.bookpage-container .available {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.bookpage-container .order-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    align-self: flex-start;
+}
+
+.bookpage-container .order-button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.bookpage-container .order-button.disabled,
+.bookpage-container .order-button.disabled:hover {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    text-decoration: none;
+    transform: none;
+    box-shadow: none;
+}
+
+.bookpage-container .description {
+    font-style: italic;
+    color: #2c3e50;
+}
