@@ -1,0 +1,22 @@
+name: fastapi-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - fastapi
+  - uvicorn
+  - sqlalchemy
+  - psycopg2
+  - alembic
+  - python-dotenv
+  - pyyaml
+  - bcrypt
+  - cryptography
+  - email-validator
+  - pip
+  - pip:
+      - python-jose==3.3.0
+      - freezegun==1.5.5
+      - pytest==8.4.2
+      - pytest-mock==3.15.1
+      - python-dateutil==2.9.0.post0

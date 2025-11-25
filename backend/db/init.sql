@@ -46,3 +46,9 @@ CREATE TABLE orders (
     status order_status NOT NULL DEFAULT 'pending'
 );
 
+INSERT INTO books (title, author, isbn, publication_year, description) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 1925, 'A classic novel set in the Jazz Age about Jay Gatsby and his pursuit of the American Dream.'),
+('1984', 'George Orwell', '9780451524935', 1949, 'Dystopian novel about a totalitarian regime and surveillance.'),
+('To Kill a Mockingbird', 'Harper Lee', '9780061120084', 1960, 'A story of racial injustice and moral growth in the American South.'),
+('Pride and Prejudice', 'Jane Austen', '9780141439518', 1813, 'A romantic novel about manners, marriage, and society in early 19th century England.'),
+('The Catcher in the Rye', 'J.D. Salinger', '9780316769488', 1951, 'A story following teenage angst and alienation in postwar New York.');
