@@ -5,40 +5,74 @@ import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
+
     if (token) {
       try {
-        const decoded = jwtDecode(token); 
+        const decoded = jwtDecode(token);
         setUser({ username: decoded.username, role: decoded.role });
       } catch (error) {
+        console.error("Invalid or expired token:", error);
         localStorage.removeItem('access_token');
       }
-    } 
+    }
+
     setLoading(false);
   }, []);
 
   const signup = async (username, email, role, password) => {
-    const res = await api.post('/users/signup', { "username": username, "email": email, "role": role, "password_hash": password });
-    localStorage.setItem('access_token', res.data.access_token);
-    const decoded = jwtDecode(res.data.access_token);
-    setUser({ username: decoded.username, role: decoded.role });
-  }
+    try {
+      const res = await api.post('/users/signup', {
+        username: username,
+        email: email,
+        role: role,
+        password_hash: password
+      });
+
+      localStorage.setItem('access_token', res.data.access_token);
+
+      const decoded = jwtDecode(res.data.access_token);
+      setUser({ username: decoded.username, role: decoded.role });
+
+      return { success: true };
+    } catch (error) {
+      console.error("Signup failed:", error);
+      return { success: false, error };
+    }
+  };
 
   const login = async (username, password) => {
-    const res = await api.post('/users/login', { "username": username, "password_hash": password });
-    localStorage.setItem('access_token', res.data.access_token);
-    const decoded = jwtDecode(res.data.access_token);
-    setUser({ username: decoded.username, role: decoded.role });
+    try {
+      const res = await api.post('/users/login', {
+        username: username,
+        password_hash: password
+      });
+
+      localStorage.setItem('access_token', res.data.access_token);
+
+      const decoded = jwtDecode(res.data.access_token);
+      setUser({ username: decoded.username, role: decoded.role });
+
+      return { success: true };
+    } catch (error) {
+      console.error("Login failed:", error);
+      return { success: false, error };
+    }
   };
 
   const logout = async () => {
-    await api.post('/users/logout');
-    localStorage.removeItem('access_token');
-    setUser(null);
+    try {
+      await api.post('/users/logout');
+    } catch (error) {
+      console.warn("Logout request failed (token probably expired):", error);
+    } finally {
+      localStorage.removeItem('access_token');
+      setUser(null);
+    }
   };
 
   return (
